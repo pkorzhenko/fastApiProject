@@ -6,6 +6,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
+from starlette.responses import RedirectResponse
 from starlette.staticfiles import StaticFiles
 from starlette.status import (
     HTTP_401_UNAUTHORIZED,
@@ -27,7 +28,7 @@ from fastapi_admin.exceptions import (
     server_error_exception,
     unauthorized_error_exception,
 )
-
+from resources import Dropdown, Content, AdminResource
 
 load_dotenv()
 
@@ -61,6 +62,9 @@ def create_app():
         StaticFiles(directory=os.path.join(BASE_DIR, "static")),
         name="static",
     )
+    @app.get("/")
+    async def index():
+        return RedirectResponse(url="/admin")
 
     admin_app.add_exception_handler(HTTP_500_INTERNAL_SERVER_ERROR, server_error_exception)
     admin_app.add_exception_handler(HTTP_404_NOT_FOUND, not_found_error_exception)

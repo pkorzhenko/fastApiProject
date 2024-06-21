@@ -4,20 +4,27 @@ from tortoise.transactions import in_transaction
 from starlette.requests import Request
 
 from fastapi_admin.app import app as admin_app
-from fastapi_admin.depends import get_resources
+from fastapi_admin.depends import get_resources, get_current_admin
 from fastapi_admin.template import templates
 
+from utils import get_statistics
 
-@admin_app.get("/admin")
+
+@admin_app.get("/")
 async def home(
   request: Request,
   resources=Depends(get_resources),
 ):
+    total_transactions, total_amount, dates, amounts = await get_statistics()
     return templates.TemplateResponse(
         "dashboard.html",
         context={
             "request": request,
             "resources": resources,
+            "total_transactions": total_transactions,
+            "total_amount": total_amount,
+            "dates": dates,
+            "amounts": amounts,
             "resource_label": "Dashboard",
             "page_pre_title": "overview",
             "page_title": "Dashboard",

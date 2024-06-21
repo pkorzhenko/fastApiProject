@@ -1,15 +1,49 @@
 {% extends 'layout.html' %}
 {% block page_body %}
     <div class="row">
+        <div class="col-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="card-title">
+                        <h1>Statistics</h1>
+                    </div>
+        <p>Total Transactions: {{total_transactions}}</p>
+        <p>Total Amount: {{total_amount}}</p>
+                </div>
+            </div>
+        </div>
         <div class="col-8">
             <div class="card">
                 <div class="card-body">
                     <div class="card-title">
-                        Stargazers over time
+                        <h1>Transaction Chart</h1>
                     </div>
-                    <img src="https://starchart.cc/fastapi-admin/fastapi-admin.svg" alt="">
+                    <canvas id="transactionChart"></canvas>
                 </div>
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        var ctx = document.getElementById('transactionChart').getContext('2d');
+        var transactionChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: {{ dates | safe }},
+                datasets: [{
+                    label: 'Transactions',
+                    data: {{ amounts | safe }},
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
 {% endblock %}
