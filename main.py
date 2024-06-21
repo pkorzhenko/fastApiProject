@@ -18,11 +18,14 @@ async def shutdown():
     await database.disconnect()
 
 
-@app.post("/add_user/", response_model=int)
+@app.post("/add_user/", response_model=dict)
 async def add_user(user: UserCreate):
     query = users.insert().values(username=user.username)
-    last_record_id = await database.execute(query)
-    return last_record_id
+    try:
+        last_record_id = await database.execute(query)
+        return {"id": last_record_id}
+    except Exception as e:
+        raise HTTPException(status_code=400, detail="Username already exists")
 
 
 @app.get("/get_user/{user_id}", response_model=User)
@@ -51,8 +54,8 @@ async def get_all_users():
     return result
 
 
-@app.post("/add_transaction/", response_model=int)
+@app.post("/add_transaction/", response_model=dict)
 async def add_transaction(transaction: TransactionCreate):
     query = transactions.insert().values(amount=transaction.amount, type=transaction.type, user_id=transaction.user_id)
     last_record_id = await database.execute(query)
-    return last_record_id
+    return {"id": last_record_id}

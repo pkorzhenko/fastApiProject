@@ -5,7 +5,7 @@ users = Table(
   'users',
   metadata,
   Column('id', Integer, primary_key=True),
-  Column('username', String, nullable=False)
+  Column('username', String, nullable=False, unique=True)
 )
 
 transactions = Table(
