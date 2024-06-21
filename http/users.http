@@ -1,0 +1,7 @@
+### Add User
+POST {{host}}/add_user/
+Content-Type: application/json
+
+{
+  "username": "user1"
+}
