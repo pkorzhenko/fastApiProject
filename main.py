@@ -4,6 +4,7 @@ from fastapi import FastAPI, HTTPException
 from database import database
 from models import users, transactions
 from schemas import User, UserCreate, Transaction, TransactionCreate
+from admin import admin_app
 
 app = FastAPI()
 
@@ -16,6 +17,9 @@ async def startup():
 @app.on_event("shutdown")
 async def shutdown():
     await database.disconnect()
+
+
+app.mount("/admin", admin_app)
 
 
 @app.post("/add_user/", response_model=dict)
