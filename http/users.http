@@ -3,7 +3,7 @@ POST {{host}}/add_user/
 Content-Type: application/json
 
 {
-  "username": "user4"
+  "username": "user1"
 }
 
 ### Add Transaction

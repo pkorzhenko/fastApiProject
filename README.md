@@ -4,8 +4,10 @@
 ## setup
 
 - install postgres
-- config your environment (.env) 
-- run alembic upgrade head
+
+## run
+
+- python -m uvicorn main:app_ --reload 
 
 ## check
 
