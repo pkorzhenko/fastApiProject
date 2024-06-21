@@ -30,6 +30,15 @@ class Admin(AbstractAdmin):
 
 
 User_Pydantic = pydantic_model_creator(User, name="User")
-UserIn_Pydantic = pydantic_model_creator(User, name="UserIn", exclude_readonly=True)
+UserIn_Pydantic = pydantic_model_creator(
+    User, name="UserIn",
+    exclude_readonly=True,
+    exclude=('id', 'created_at')
+)
+
 Transaction_Pydantic = pydantic_model_creator(Transaction, name="Transaction")
-TransactionIn_Pydantic = pydantic_model_creator(Transaction, name="TransactionIn", exclude_readonly=True)
+TransactionIn_Pydantic = pydantic_model_creator(
+    Transaction, name="TransactionIn",
+    exclude_readonly=True,
+    exclude=('id', 'created_at')
+)

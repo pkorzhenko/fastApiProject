@@ -1,11 +1,11 @@
 import os
-from contextlib import asynccontextmanager
-
 import redis.asyncio as redis
 import uvicorn
+
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
-from starlette.responses import RedirectResponse
 from starlette.staticfiles import StaticFiles
 from starlette.status import (
     HTTP_401_UNAUTHORIZED,
@@ -16,6 +16,7 @@ from starlette.status import (
 from dotenv import load_dotenv
 from tortoise.contrib.fastapi import register_tortoise
 
+import routes
 from constants import BASE_DIR
 from models import Admin
 from providers import LoginProvider
@@ -26,6 +27,7 @@ from fastapi_admin.exceptions import (
     server_error_exception,
     unauthorized_error_exception,
 )
+
 
 load_dotenv()
 
@@ -66,6 +68,33 @@ def create_app():
     admin_app.add_exception_handler(HTTP_401_UNAUTHORIZED, unauthorized_error_exception)
 
     app.mount("/admin", admin_app)
+
+    # routes
+    app.add_api_route(
+        path="/add_user/",
+        endpoint=routes.add_user,
+        response_model=dict,
+        methods=['POST']
+    )
+    app.add_api_route(
+        path="/get_user/{user_id}",
+        endpoint=routes.get_user,
+        response_model=dict,
+        methods=['GET']
+    )
+    app.add_api_route(
+        path="/get_all_users/",
+        endpoint=routes.get_all_users,
+        response_model=list,
+        methods=['GET']
+    )
+    app.add_api_route(
+        path="/add_transaction/{user_id}",
+        endpoint=routes.add_transaction,
+        response_model=dict,
+        methods=['POST']
+    )
+
     app.add_middleware(
         CORSMiddleware,
         allow_origins=["*"],

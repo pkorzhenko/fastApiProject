@@ -3,16 +3,15 @@ POST {{host}}/add_user/
 Content-Type: application/json
 
 {
-  "username": "user1"
+  "username": "user3"
 }
 
 ### Add Transaction
-POST {{host}}/add_transaction/
+POST {{host}}/add_transaction/2
 Content-Type: application/json
 
 {
-  "user_id": 1,
-  "amount": 11,
+  "amount": 11.1,
   "type": "deposit"
 }
 

@@ -9,7 +9,6 @@ from fastapi_admin.app import app
 from fastapi_admin.file_upload import FileUpload
 from fastapi_admin.resources import Action, Dropdown, Field, Link, Model, ToolbarAction
 from fastapi_admin.widgets import displays, filters, inputs
-from fastapi_admin.depends import get_resources
 
 upload = FileUpload(uploads_dir=os.path.join(BASE_DIR, "static", "uploads"))
 
